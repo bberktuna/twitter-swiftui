@@ -38,7 +38,7 @@ struct FeedCell: View {
                             .frame(width: 32, height: 32)
                             .padding(.top, -10)
                     }
-                    Text("qwdqwdqwdqwdqwdwqdqwdqwdqwdqwdqwdwqdqwdqwdqwdqwdqwdwqdq,wkdnklqwndqkj;wnd;qwk")
+                    Text("qwdqwdqwdqwdqwdwqdqwdqwdqwdqwdqwdwqdqwdqwdqwdqwdqwdwqdq,adqqd;wnd;qwk")
                         .font(.system(size: 14))
                         .padding(.trailing, 6)
                 }

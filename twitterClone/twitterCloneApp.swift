@@ -11,8 +11,7 @@ import SwiftUI
 struct twitterCloneApp: App {
     var body: some Scene {
         WindowGroup {
-            //ContentView()
-            LoginView(username: "", password: "")
+            ContentView()
         }
     }
 }
