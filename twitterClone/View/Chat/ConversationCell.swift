@@ -30,7 +30,7 @@ struct ConversationCell: View {
             }
             .foregroundColor(.black)
             .padding(.trailing)
-            
+            Spacer()
         }
             Divider()
         }

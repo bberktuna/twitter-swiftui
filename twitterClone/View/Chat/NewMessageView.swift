@@ -1,14 +1,16 @@
 //
-//  SearchView.swift
+//  NewMessageView.swift
 //  twitterClone
 //
-//  Created by berk tuna on 07/06/2022.
+//  Created by berk tuna on 16/08/2022.
 //
 
 import SwiftUI
 
-struct SearchView: View {
+struct NewMessageView: View {
     @State var searchText = ""
+    @Binding var show: Bool
+    @Binding var startChat: Bool
     var body: some View {
         ScrollView {
             SearchBar(text: $searchText)
@@ -16,15 +18,18 @@ struct SearchView: View {
             
             VStack {
                 ForEach(0..<19) { _ in
-                    NavigationLink(
-                        destination: ProfileView(),
+                    HStack { Spacer() }
+                    
+                    Button(
+                        action: {
+                            self.show.toggle()
+                            self.startChat.toggle()
+                        },
                         label: {
                             UserCell()
                                 .foregroundColor(.black)
                         }
                     )
-                    Spacer()
-
                 }
             }
         }
@@ -34,8 +39,8 @@ struct SearchView: View {
     }
 }
 
-struct SearchView_Previews: PreviewProvider {
+struct NewMessageView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchView()
+        NewMessageView(show: .constant(true), startChat: .constant(true))
     }
 }

@@ -13,11 +13,12 @@ struct ChatView: View {
         VStack {
             ScrollView {
                 VStack {
-                    ForEach(0..<15) { _ in
-                        Text("bubble")
+                    ForEach(MOCK_MESSAGES) { message in
+                        MessageView(message: message)
+                        
                     }
                 }
-            }
+            }.padding(.top)
             
             MessageInputView(messageText: $messageText)
                 .padding()
@@ -30,3 +31,5 @@ struct ChatView_Previews: PreviewProvider {
         ChatView()
     }
 }
+
+
