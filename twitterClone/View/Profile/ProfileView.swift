@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State var selectedFilter: TweetFilterOptions = .tweets
     var body: some View {
         ScrollView {
             
@@ -41,7 +42,7 @@ struct ProfileView: View {
                                 )
                             
                         })
-                    .padding(.trailing)
+                    .padding(.trailing, 30)
                 }
                 VStack(alignment: .leading) {
                         Text("berk").font(.system(size: 20, weight: .bold))
@@ -60,6 +61,14 @@ struct ProfileView: View {
                     
                 }.padding(.horizontal)
 
+            }.padding(.bottom)
+            
+            FilterButtonView(selectedOption: $selectedFilter)
+                .padding()
+            
+            ForEach(0..<9) { tweet in
+                FeedCell()
+                    .padding(.horizontal)
             }
         }.edgesIgnoringSafeArea(.top)
     }

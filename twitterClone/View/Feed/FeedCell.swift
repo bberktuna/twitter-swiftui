@@ -102,6 +102,7 @@ struct FeedCell: View {
             .foregroundColor(.gray)
 
         }
+        
     }
 }
 
