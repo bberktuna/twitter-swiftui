@@ -15,18 +15,50 @@ private func fooo() -> UIColor {
 struct RegisterView: View {
     @State var email = ""
     @State var password = ""
-    @State var fullName = ""
+    @State var fullname = ""
     @State var username = ""
+    @State var showImagePicker = false
+    @State private var selectedImage: UIImage?
+    @State private var image: Image?
+
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @ObservedObject var viewModel = AuthViewModel()
+    
     var body: some View {
         ZStack {
             VStack(spacing: 14) {
-                Image("plus_photo")
-                    .resizable()
-                    .renderingMode(.template)
-                    .scaledToFill()
-                    .frame(width: 140, height: 140)
-                    .padding(.top, 50)
-                    .foregroundColor(.white)
+                
+                Button(
+                    action: {
+                        showImagePicker.toggle()
+                    },
+                    label: {
+                        ZStack {
+                            if let image = image {
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 140, height: 140)
+                                    .clipShape(Circle())
+                                    .padding(.top, 60)
+                                    .foregroundColor(Color(.init(white: 1, alpha: 0.7)))
+                            } else {
+                                Image("plus_photo")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .scaledToFill()
+                                    .frame(width: 140, height: 140)
+                                    .padding(.top, 50)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }).sheet(
+                        isPresented: $showImagePicker,
+                        onDismiss: loadImage,
+                        content: {
+                            ImagePicker(image: $selectedImage)
+                        })
+
                             
                 
                 HStack() {
@@ -35,7 +67,7 @@ struct RegisterView: View {
                             .frame(width: 34, height: 34)
                             .foregroundColor(.white)
                         
-                        TextField("Full Name", text: $fullName)
+                        TextField("Full Name", text: $fullname)
                             .font(.system(size:16))
                             .padding()
                             .padding(.leading)
@@ -45,7 +77,7 @@ struct RegisterView: View {
                             .cornerRadius(10)
                        
                     }
-                }.padding(.top, 44)
+                }.padding(.top, 24)
                 
                 HStack() {
                     ZStack(alignment: .leading) {
@@ -102,7 +134,17 @@ struct RegisterView: View {
                 }
                 
                 Button(
-                    action: {},
+                    action: {
+                        guard let image = selectedImage else { return }
+
+                        viewModel.registerUser(
+                            email: email,
+                            password: password,
+                            username: username,
+                            fullname: fullname,
+                            profileImage: image
+                        )
+                    },
                     label: {
                         Text("Register")
                             .font(.system(size: 14, weight: .bold))
@@ -115,8 +157,8 @@ struct RegisterView: View {
 
                     Spacer()
                 
-                Button(
-                    action: {},
+                NavigationLink(
+                    destination: LoginView(),
                     label: {
                         HStack {
                             Text("Already have an account?")
@@ -126,7 +168,6 @@ struct RegisterView: View {
                         .font(.system(size: 14))
                         .foregroundColor(.white)
                     }).padding(.bottom)
-                
             }
             .padding(.horizontal, 24)
             .padding(.vertical)
@@ -135,6 +176,15 @@ struct RegisterView: View {
         .background(Color(#colorLiteral(red: 0.1171251312, green: 0.632802248, blue: 0.9511669278, alpha: 1)))
         .ignoresSafeArea()
 
+    }
+}
+
+
+
+extension RegisterView {
+    func loadImage() {
+        guard let selectedImage = selectedImage else { return }
+        image = Image(uiImage: selectedImage)
     }
 }
 

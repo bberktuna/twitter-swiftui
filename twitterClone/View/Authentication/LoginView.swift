@@ -16,6 +16,9 @@ struct LoginView: View {
     @State var email = ""
     @State var password = ""
     var body: some View {
+        NavigationView{
+            
+        
         ZStack {
             VStack(spacing: 14) {
                 Image("twitter-logo")
@@ -73,8 +76,8 @@ struct LoginView: View {
                         })
                 }
                 
-                Button(
-                    action: {},
+                NavigationLink(
+                    destination: FeedView(),
                     label: {
                         Text("Login")
                             .font(.system(size: 14, weight: .bold))
@@ -86,9 +89,9 @@ struct LoginView: View {
                     })
 
                     Spacer()
-                
-                Button(
-                    action: {},
+
+                NavigationLink(
+                    destination: RegisterView() ,
                     label: {
                         HStack {
                             Text("Don't have an account?")
@@ -106,6 +109,7 @@ struct LoginView: View {
         .frame(maxWidth: .infinity)
         .background(Color(#colorLiteral(red: 0.1171251312, green: 0.632802248, blue: 0.9511669278, alpha: 1)))
         .ignoresSafeArea()
+        }
 
     }
 }
