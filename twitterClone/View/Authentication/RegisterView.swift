@@ -21,7 +21,7 @@ struct RegisterView: View {
     @State private var selectedImage: UIImage?
     @State private var image: Image?
 
-    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @Environment(\.presentationMode) var mode
     @ObservedObject var viewModel = AuthViewModel()
     
     var body: some View {
