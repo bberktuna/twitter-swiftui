@@ -10,9 +10,24 @@ import Firebase
 import FirebaseStorage
 
 class AuthViewModel: ObservableObject {
+    @Published var userSession: FirebaseAuth.User?
+    @Published var isAuthenticating = false
+    @Published var error: Error?
+    @Published var user: User?
     
-    func login() {
-        
+    init() {
+        userSession = Auth.auth().currentUser
+    }
+    
+    
+    func login(withEmail email: String, password: String) {
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("DEBUG FAILED TO LOGIN: \(error.localizedDescription)")
+                return
+            }
+            print("LOGGED IN SUC")
+        }
     }
     
     func registerUser(email: String, password: String, username: String, fullname: String, profileImage: UIImage) {

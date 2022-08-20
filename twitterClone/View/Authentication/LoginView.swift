@@ -15,6 +15,7 @@ private func fooo() -> UIColor {
 struct LoginView: View {
     @State var email = ""
     @State var password = ""
+    @ObservedObject var viewModel = AuthViewModel()
     var body: some View {
         NavigationView{
             
@@ -42,6 +43,8 @@ struct LoginView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                        
                     }
                 }.padding(.top, 44)
@@ -52,7 +55,7 @@ struct LoginView: View {
                             .frame(width: 34, height: 34)
                             .foregroundColor(.white)
                         
-                        TextField("Password", text: $password)
+                        SecureField("Password", text: $password)
                             .font(.system(size:16))
                             .padding()
                             .padding(.leading)
@@ -60,6 +63,9 @@ struct LoginView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
+                            
                        
                     }
                 }
@@ -73,11 +79,14 @@ struct LoginView: View {
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white)
                                 .padding(.vertical)
+                                
                         })
                 }
                 
-                NavigationLink(
-                    destination: FeedView(),
+                Button(
+                    action: {
+                        viewModel.login(withEmail: email, password: password)
+                    },
                     label: {
                         Text("Login")
                             .font(.system(size: 14, weight: .bold))

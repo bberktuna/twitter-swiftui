@@ -75,6 +75,8 @@ struct RegisterView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                        
                     }
                 }.padding(.top, 24)
@@ -93,6 +95,8 @@ struct RegisterView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                        
                     }
                 }
@@ -111,6 +115,8 @@ struct RegisterView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                        
                     }
                 }
@@ -121,7 +127,7 @@ struct RegisterView: View {
                             .frame(width: 34, height: 34)
                             .foregroundColor(.white)
                         
-                        TextField("Password", text: $password)
+                        SecureField("Password", text: $password)
                             .font(.system(size:16))
                             .padding()
                             .padding(.leading)
@@ -129,6 +135,8 @@ struct RegisterView: View {
                             .background(Color.white.opacity(0.2))
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disableAutocorrection(true)
+                            .textInputAutocapitalization(.never)
                        
                     }
                 }
