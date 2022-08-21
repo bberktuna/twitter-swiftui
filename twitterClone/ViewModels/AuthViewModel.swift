@@ -13,10 +13,11 @@ class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var isAuthenticating = false
     @Published var error: Error?
-    @Published var user: User?
+ //   @Published var user: User?
     
     init() {
         userSession = Auth.auth().currentUser
+        fetchUser()
     }
     
     
@@ -26,6 +27,7 @@ class AuthViewModel: ObservableObject {
                 print("DEBUG FAILED TO LOGIN: \(error.localizedDescription)")
                 return
             }
+            self.userSession = result?.user
             print("LOGGED IN SUC")
         }
     }
@@ -60,19 +62,35 @@ class AuthViewModel: ObservableObject {
                         print("DEBUG USER REGISTERED SUC")
                         
                         let data = [
-                            "email": email,
-                            "username": username,
+                            "email": email.lowercased(),
+                            "username": username.lowercased(),
                             "password": password,
-                            "fullname": fullname,
+                            "fullname": fullname.lowercased(),
                             "profileImageUrl": profileImageUrl,
                             "uid": user.uid
                         ]
                         
                         Firestore.firestore().collection("users").document(user.uid).setData(data) { _ in
+                            self.userSession = user
                             print("DEBUG SUCCESFULY UPLOADED USER DATA")
                         }
                     }
                 }
             }
         }
+    
+    func signOut() {
+        userSession = nil
+        try? Auth.auth().signOut()
     }
+    
+    func fetchUser() {
+        guard let uid = userSession?.uid else { return } // IF USER LOGGED IN
+        
+        Firestore.firestore().collection("users").document(uid).getDocument() { snapshot, _ in
+            guard let data = snapshot?.data() else { return }
+            let user = User(dictionary: data)
+            print("DEBUG USER IS \(user.username)")
+        }
+    }
+}

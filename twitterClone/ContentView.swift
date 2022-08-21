@@ -13,7 +13,6 @@ struct ContentView: View {
         Group {
             if viewModel.userSession != nil {
                 NavigationView {
-                    
                     TabView {
                         
                         FeedView()
@@ -33,6 +32,17 @@ struct ContentView: View {
                     }
                     .navigationBarTitle("Home")
                     .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarItems(
+                        trailing: Button(
+                            action: {
+                                viewModel.signOut()
+                            },
+                            label:{
+                                Image(systemName: "gearshape")
+                                    .foregroundColor(.black)
+                            }
+                        ))
+                    
                 }
             } else {
                 LoginView()

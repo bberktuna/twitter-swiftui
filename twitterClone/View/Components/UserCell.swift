@@ -4,13 +4,15 @@
 //
 //  Created by berk tuna on 15/08/2022.
 //
-
+import Kingfisher
 import SwiftUI
 
 struct UserCell: View {
+    let user: User
+    
     var body: some View {
         HStack {
-            Image("cat")
+            KFImage(URL(string: user.profileImageUrl))
                 .resizable()
                 .scaledToFill()
                 .clipped()
@@ -18,10 +20,10 @@ struct UserCell: View {
                 .cornerRadius(28)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("berktuna")
+                Text(user.username)
                     .font(.system(size: 14, weight: .semibold))
                 
-                Text("Berk Tuna")
+                Text(user.fullname)
                     .font(.system(size: 14))
             }
             
@@ -30,8 +32,3 @@ struct UserCell: View {
     }
 }
 
-struct UserCell_Previews: PreviewProvider {
-    static var previews: some View {
-        UserCell()
-    }
-}

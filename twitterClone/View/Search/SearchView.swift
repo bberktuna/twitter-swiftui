@@ -1,36 +1,35 @@
 //
 //  SearchView.swift
-//  twitterClone
+//  TwitterSwiftUITutorial
 //
-//  Created by berk tuna on 07/06/2022.
+//  Created by Stephen Dowless on 11/15/20.
 //
 
 import SwiftUI
 
 struct SearchView: View {
     @State var searchText = ""
+    @ObservedObject var viewModel = SearchViewModel()
+
     var body: some View {
         ScrollView {
             SearchBar(text: $searchText)
                 .padding()
-            
-            VStack {
-                ForEach(0..<19) { _ in
-                    NavigationLink(
-                        destination: ProfileView(),
-                        label: {
-                            UserCell()
-                                .foregroundColor(.black)
-                        }
-                    )
-                    Spacer()
 
+            VStack(alignment: .leading) {
+                ForEach(viewModel.users) { user in
+                    HStack { Spacer() }
+                    
+                    NavigationLink(
+                        destination: ProfileView(user: user),
+                        label: {
+                            UserCell(user: user)
+                                .foregroundColor(.black)
+                        })
                 }
             }
+            .padding(.leading)
         }
-    
-        
-        
     }
 }
 
