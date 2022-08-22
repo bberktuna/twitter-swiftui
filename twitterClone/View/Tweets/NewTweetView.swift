@@ -6,27 +6,37 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct NewTweetView: View {
     @Binding var isPresented: Bool
-    @State var tweetText = ""
+    @State var captionText = ""
+    @ObservedObject var viewModel: UploadTweetViewModel
+    
+    init(isPresented: Binding<Bool>) {
+        self._isPresented = isPresented
+        self.viewModel = UploadTweetViewModel(isPresented: isPresented)
+    }
     var body: some View {
         NavigationView {
             VStack {
                 
             HStack(alignment: .top) {
-                Image("cat")
-                    .resizable()
-                    .scaledToFill()
-                    .clipped()
-                    .frame(width: 64, height: 64)
-                    .cornerRadius(32)
+                if let user = AuthViewModel.shared.user {
+                    KFImage(URL(string: user.profileImageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .clipped()
+                        .frame(width: 64, height: 64)
+                        .cornerRadius(32)
+                }
+
                 
-                    TextEditor(text: $tweetText)
+                     TextEditor(text: $captionText)
                         .frame(height: 200)
                         .padding()
-                        .overlay(RoundedRectangle(cornerRadius: 8)
-                            .stroke(.gray.opacity(0.5)))
+                        .disableAutocorrection(true)
+                        .textInputAutocapitalization(.never)
                 Spacer()
             }
                 
@@ -48,7 +58,7 @@ struct NewTweetView: View {
                 trailing:
                     Button(
                         action: {
-                            
+                            viewModel.uploadTweet(caption: captionText)
                         },
                         label: {
                             Text("Tweet")
